@@ -5,8 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Comparison</title>
     <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
-        body { padding: 20px; font-family: 'Segoe UI', sans-serif; }
+        body { padding: 0; margin: 0; font-family: 'Segoe UI', sans-serif; }
+        .ribbon { background-color: #f0f0f0; padding: 10px; border-bottom: 1px solid #ddd; }
+        .ribbon-group { display: inline-block; margin-right: 20px; text-align: center; }
+        .ribbon-button { display: inline-block; padding: 5px 10px; text-align: center; cursor: pointer; }
+        .ribbon-button:hover { background-color: #e0e0e0; }
+        .ribbon-button i { font-size: 20px; display: block; margin-bottom: 5px; }
+        .content { padding: 20px; }
         table { width: 100%; border-collapse: collapse; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f0f0f0; }
@@ -14,40 +21,78 @@
     </style>
 </head>
 <body class="ms-Fabric">
-    <h1 class="ms-font-xxl">Order Comparison</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Order ID</th>
-                <th>Description</th>
-                <th>Amount</th>
-                <th>Confirmation Status</th>
-                <th>Confirmed At</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{range .}}
-            <tr>
-                <td>{{.Order.ID}}</td>
-                <td>{{.Order.Description}}</td>
-                <td>${{printf "%.2f" .Order.Amount}}</td>
-                <td>{{if .Confirmation}}{{.Confirmation.Status}}{{else}}N/A{{end}}</td>
-                <td>{{if .Confirmation}}{{.Confirmation.ConfirmedAt}}{{else}}N/A{{end}}</td>
-                <td>
-                    <button class="ms-Button ms-Button--primary" onclick="handleDecision('{{.Order.ID}}', true)">OK</button>
-                    <button class="ms-Button ms-Button--default" onclick="handleDecision('{{.Order.ID}}', false)">Not OK</button>
-                </td>
-            </tr>
-            {{end}}
-        </tbody>
-    </table>
+    <div class="ribbon">
+        <div class="ribbon-group">
+            <div class="ribbon-button" onclick="refreshData()">
+                <i class="fas fa-sync"></i>
+                Refresh
+            </div>
+        </div>
+        <div class="ribbon-group">
+            <div class="ribbon-button" onclick="exportData()">
+                <i class="fas fa-file-export"></i>
+                Export
+            </div>
+        </div>
+        <div class="ribbon-group">
+            <div class="ribbon-button" onclick="showSettings()">
+                <i class="fas fa-cog"></i>
+                Settings
+            </div>
+        </div>
+    </div>
+
+    <div class="content">
+        <h1 class="ms-font-xxl">Order Comparison</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Confirmation Status</th>
+                    <th>Confirmed At</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .}}
+                <tr>
+                    <td>{{.Order.ID}}</td>
+                    <td>{{.Order.Description}}</td>
+                    <td>${{printf "%.2f" .Order.Amount}}</td>
+                    <td>{{if .Confirmation}}{{.Confirmation.Status}}{{else}}N/A{{end}}</td>
+                    <td>{{if .Confirmation}}{{.Confirmation.ConfirmedAt}}{{else}}N/A{{end}}</td>
+                    <td>
+                        <button class="ms-Button ms-Button--primary" onclick="handleDecision('{{.Order.ID}}', true)">OK</button>
+                        <button class="ms-Button ms-Button--default" onclick="handleDecision('{{.Order.ID}}', false)">Not OK</button>
+                    </td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+    </div>
 
     <script>
         function handleDecision(orderId, isOk) {
             console.log(`Order ${orderId} is ${isOk ? 'OK' : 'Not OK'}`);
             // Here you would typically send this decision to your backend
             alert(`Decision for Order ${orderId}: ${isOk ? 'OK' : 'Not OK'}`);
+        }
+
+        function refreshData() {
+            alert('Refreshing data...');
+            // Implement data refresh logic here
+        }
+
+        function exportData() {
+            alert('Exporting data...');
+            // Implement export logic here
+        }
+
+        function showSettings() {
+            alert('Opening settings...');
+            // Implement settings dialog here
         }
     </script>
 </body>
