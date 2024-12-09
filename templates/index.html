@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Comparison</title>
+    <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/11.0.0/css/fabric.min.css">
+    <style>
+        body { padding: 20px; font-family: 'Segoe UI', sans-serif; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f0f0f0; }
+        .ms-Button { margin-right: 10px; }
+    </style>
+</head>
+<body class="ms-Fabric">
+    <h1 class="ms-font-xxl">Order Comparison</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Confirmation Status</th>
+                <th>Confirmed At</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range .}}
+            <tr>
+                <td>{{.Order.ID}}</td>
+                <td>{{.Order.Description}}</td>
+                <td>${{printf "%.2f" .Order.Amount}}</td>
+                <td>{{if .Confirmation}}{{.Confirmation.Status}}{{else}}N/A{{end}}</td>
+                <td>{{if .Confirmation}}{{.Confirmation.ConfirmedAt}}{{else}}N/A{{end}}</td>
+                <td>
+                    <button class="ms-Button ms-Button--primary" onclick="handleDecision('{{.Order.ID}}', true)">OK</button>
+                    <button class="ms-Button ms-Button--default" onclick="handleDecision('{{.Order.ID}}', false)">Not OK</button>
+                </td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+
+    <script>
+        function handleDecision(orderId, isOk) {
+            console.log(`Order ${orderId} is ${isOk ? 'OK' : 'Not OK'}`);
+            // Here you would typically send this decision to your backend
+            alert(`Decision for Order ${orderId}: ${isOk ? 'OK' : 'Not OK'}`);
+        }
+    </script>
+</body>
+</html>
