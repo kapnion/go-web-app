@@ -72,6 +72,10 @@
             </tbody>
         </table>
     </div>
+    <form action="/api/convert-xml" method="post" enctype="multipart/form-data">
+        <input type="file" name="xmlFile" accept=".xml">
+        <button type="submit" class="ms-Button ms-Button--primary">Convert XML to PDF</button>
+    </form>
 
     <script>
         function handleDecision(orderId, isOk) {
