@@ -211,7 +211,11 @@ func convertHTMLToPDF(htmlContent string) ([]byte, error) {
 	}
 
 	// Write HTML content to PDF
-	pdf.Cell(nil, htmlContent)
+	lines := bytes.Split([]byte(htmlContent), []byte("\n"))
+	for _, line := range lines {
+		pdf.Cell(nil, string(line))
+		pdf.Br(20) // Line break with 20 units of space
+	}
 
 	// Get PDF content
 	var buf bytes.Buffer
